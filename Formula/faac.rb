@@ -1,3 +1,4 @@
+# faac: Build a bottle for Linuxbrew
 class Faac < Formula
   desc "ISO AAC audio encoder"
   homepage "http://www.audiocoding.com/faac.html"
@@ -11,7 +12,6 @@ class Faac < Formula
     sha256 "1d3c4c9b4848d88a29d16702ab1d3e9cca5d2e801cf99886d9b13b38510f09ef" => :yosemite
   end
 
-  patch :DATA
   depends_on "autoconf" => :build
   depends_on "automake" => :build
   depends_on "libtool" => :build
@@ -28,15 +28,3 @@ class Faac < Formula
     assert File.exist?("test.m4a")
   end
 end
-
-__END__
---- a/common/mp4v2/mpeg4ip.h	2014-08-11 21:47:47.074013710 -0700
-+++ b/common/mp4v2/mpeg4ip.h	2014-08-11 21:48:38.278413585 -0700
-@@ -123,7 +123,6 @@
- #ifdef __cplusplus
- extern "C" {
- #endif
--char *strcasestr(const char *haystack, const char *needle);
- #ifdef __cplusplus
- }
- #endif
