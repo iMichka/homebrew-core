@@ -1,13 +1,13 @@
 class Mkvtoolnix < Formula
   desc "Matroska media files manipulation tools"
   homepage "https://www.bunkus.org/videotools/mkvtoolnix/"
-  url "https://www.bunkus.org/videotools/mkvtoolnix/sources/mkvtoolnix-13.0.0.tar.xz"
-  sha256 "855e4ea7b0d5a7066dc8db6f8f54a1d9da8ed5616d9c1cea8bc198d4adb57642"
+  url "https://www.bunkus.org/videotools/mkvtoolnix/sources/mkvtoolnix-14.0.0.tar.xz"
+  sha256 "86aa96acb26f7ef9d7afb4d0c1fa1a086b398d563b77372c436044c3c6bba78c"
 
   bottle do
-    sha256 "95ec0116ff1b5c5dc468bf0d072d43e61776b7426114e00684a1ba813c5e91ea" => :sierra
-    sha256 "44f072b66e5ff22c4bdebb77ca14fc06b04d837d7e7616f7724add0c62890292" => :el_capitan
-    sha256 "dfab98f2d39081b1acadbd1ead2de965069ee9acc91b237edf1ffcd4420f8226" => :yosemite
+    sha256 "3d971c0acccb9e5a7bc9d46a2ddb2bdcffb9fea8f159f9d6ed566ea5595786b6" => :sierra
+    sha256 "75c32482b63da5277e9a80f2872974dce52fdd6f3103ef5f9221938234a57865" => :el_capitan
+    sha256 "fb802d4f84bb02346d5bb3a2a9a594efbb66ce554a855922b048a7a90e738135" => :yosemite
   end
 
   head do
