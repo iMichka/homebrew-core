@@ -13,7 +13,7 @@ class Libmpdclient < Formula
   end
 
   depends_on "doxygen" => :build
-  depends_on "meson-internal" => :build
+  depends_on "meson" => :build
   depends_on "ninja" => :build
 
   def install

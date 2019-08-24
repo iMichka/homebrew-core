@@ -12,7 +12,7 @@ class Mesa < Formula
     sha256 "315cbd9560a09ec660e779fe9968181e1e0ba08716fb64741edeeafe595c2032" => :sierra
   end
 
-  depends_on "meson-internal" => :build
+  depends_on "meson" => :build
   depends_on "ninja" => :build
   depends_on "pkg-config" => :build
   depends_on "python@2" => :build
