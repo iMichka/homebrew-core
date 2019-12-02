@@ -3,7 +3,7 @@ class Tbb < Formula
   homepage "https://www.threadingbuildingblocks.org/"
   url "https://github.com/intel/tbb/archive/v2020.1.tar.gz"
   version "2020_U1"
-  sha256 "7c96a150ed22bc3c6628bc3fef9ed475c00887b26d37bca61518d76a56510971"
+  sha256 "48d51c63b16787af54e1ee4aaf30042087f20564b4eecf9a032d5568bc2f0bf8"
   revision 1
 
   bottle do
@@ -15,7 +15,7 @@ class Tbb < Formula
 
   depends_on "cmake" => :build
   depends_on "swig" => :build
-  depends_on "python"
+  depends_on "python@3.8"
 
   def install
     compiler = (ENV.compiler == :clang) ? "clang" : "gcc"
