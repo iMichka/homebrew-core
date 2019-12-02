@@ -25,7 +25,7 @@ class OpencvAT3 < Formula
   depends_on "libtiff"
   depends_on "numpy"
   depends_on "openexr"
-  depends_on "python"
+  depends_on "python@3.8"
   depends_on "tbb"
 
   resource "contrib" do
@@ -41,9 +41,10 @@ class OpencvAT3 < Formula
     # Reset PYTHONPATH, workaround for https://github.com/Homebrew/homebrew-science/pull/4885
     ENV.delete("PYTHONPATH")
 
-    py3_config = `python3-config --configdir`.chomp
-    py3_include = `python3 -c "import distutils.sysconfig as s; print(s.get_python_inc())"`.chomp
-    py3_version = Language::Python.major_minor_version "python3"
+    xy = Language::Python.major_minor_version "python3"
+    python_prefix = Formula["python@3.8"].opt_prefix
+    python_lib = python_prefix/"Frameworks/Python.framework/Versions/#{xy}/lib/libpython#{xy}.dylib"
+    python_include = python_prefix/"Frameworks/Python.framework/Versions/#{xy}/include/python#{xy}"
 
     args = std_cmake_args + %W[
       -DCMAKE_OSX_DEPLOYMENT_TARGET=
@@ -74,9 +75,9 @@ class OpencvAT3 < Formula
       -DWITH_VTK=OFF
       -DBUILD_opencv_python2=OFF
       -DBUILD_opencv_python3=ON
-      -DPYTHON3_EXECUTABLE=#{which "python3"}
-      -DPYTHON3_LIBRARY=#{py3_config}/libpython#{py3_version}.dylib
-      -DPYTHON3_INCLUDE_DIR=#{py3_include}
+      -DPYTHON3_EXECUTABLE=#{Formula["python@3.8"].opt_bin}/python3
+      -DPYTHON3_LIBRARY=#{python_lib}
+      -DPYTHON3_INCLUDE_DIR=#{python_include}
     ]
 
     args << "-DENABLE_AVX=OFF" << "-DENABLE_AVX2=OFF"
@@ -108,7 +109,7 @@ class OpencvAT3 < Formula
 
     py3_version = Language::Python.major_minor_version "python3"
     ENV["PYTHONPATH"] = lib/"python#{py3_version}/site-packages"
-    output = shell_output("python3 -c 'import cv2; print(cv2.__version__)'")
+    output = shell_output(Formula["python@3.8"].opt_bin/"python3 -c 'import cv2; print(cv2.__version__)'")
     assert_equal version.to_s, output.chomp
   end
 end
