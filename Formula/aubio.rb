@@ -3,6 +3,7 @@ class Aubio < Formula
   homepage "https://aubio.org/"
   url "https://aubio.org/pub/aubio-0.4.9.tar.bz2"
   sha256 "d48282ae4dab83b3dc94c16cf011bcb63835c1c02b515490e1883049c3d1f3da"
+  revision 1
 
   bottle do
     cellar :any
@@ -15,7 +16,7 @@ class Aubio < Formula
   depends_on "libtool" => :build
   depends_on "pkg-config" => :build
   depends_on "numpy"
-  depends_on "python"
+  depends_on "python@3.8"
 
   def install
     # Needed due to issue with recent clang (-fno-fused-madd))
