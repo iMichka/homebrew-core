@@ -5,6 +5,7 @@ class GraphTool < Formula
   homepage "https://graph-tool.skewed.de/"
   url "https://downloads.skewed.de/graph-tool/graph-tool-2.30.tar.bz2"
   sha256 "823cf3374b08fbfe8f580d08ae063913d021ff92f8ef1365d317e8ea38ecc8bf"
+  revision 1
 
   bottle do
     sha256 "4d6feff34ab191012affa5fc88932d348473d38d51398fa2dc123451bb805eaf" => :catalina
@@ -26,7 +27,7 @@ class GraphTool < Formula
   depends_on "numpy"
   depends_on "py3cairo"
   depends_on "pygobject3"
-  depends_on "python"
+  depends_on "python@3.8"
   depends_on "scipy"
 
   resource "Cycler" do
