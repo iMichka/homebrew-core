@@ -3,6 +3,7 @@ class GtkDoc < Formula
   homepage "https://gitlab.gnome.org/GNOME/gtk-doc"
   url "https://download.gnome.org/sources/gtk-doc/1.32/gtk-doc-1.32.tar.xz"
   sha256 "de0ef034fb17cb21ab0c635ec730d19746bce52984a6706e7bbec6fb5e0b907c"
+  revision 1
 
   bottle do
     cellar :any_skip_relocation
@@ -18,7 +19,7 @@ class GtkDoc < Formula
   depends_on "docbook-xsl"
   depends_on "gettext"
   depends_on "libxml2"
-  depends_on "python"
+  depends_on "python@3.8"
   depends_on "source-highlight"
 
   uses_from_macos "libxslt"
