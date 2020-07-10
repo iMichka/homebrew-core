@@ -36,7 +36,7 @@ class Anttweakbar < Formula
     end
 
     system "make", "-C", "src", "-f", "Makefile.osx"
-    lib.install "lib/libAntTweakBar.dylib", "lib/libAntTweakBar.a"
+    lib.install "lib/#{shared_library("libAntTweakBar")}", "lib/libAntTweakBar.a"
     include.install "include/AntTweakBar.h"
   end
 
