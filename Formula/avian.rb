@@ -23,7 +23,7 @@ class Avian < Formula
   def install
     system "make", "use-clang=true"
     bin.install Dir["build/macosx-*/avian*"]
-    lib.install Dir["build/macosx-*/*.dylib", "build/macosx-*/*.a"]
+    lib.install Dir["build/macosx-*/#{shared_library("*")}", "build/macosx-*/*.a"]
   end
 
   test do
