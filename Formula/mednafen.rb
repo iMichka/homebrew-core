@@ -24,6 +24,11 @@ class Mednafen < Formula
   depends_on macos: :sierra # needs clock_gettime
   depends_on "sdl2"
 
+  on_linux do
+    depends_on "mesa"
+    depends_on "mesa-glu"
+  end
+
   def install
     system "./configure", "--prefix=#{prefix}", "--disable-dependency-tracking"
     system "make", "install"
