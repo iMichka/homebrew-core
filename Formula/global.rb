@@ -1,10 +1,13 @@
 class Global < Formula
+  include Language::Python::Shebang
+
   desc "Source code tag system"
   homepage "https://www.gnu.org/software/global/"
   url "https://ftp.gnu.org/gnu/global/global-6.6.4.tar.gz"
   mirror "https://ftpmirror.gnu.org/global/global-6.6.4.tar.gz"
   sha256 "987e8cb956c53f8ebe4453b778a8fde2037b982613aba7f3e8e74bcd05312594"
-  revision 1
+  revision 2
+  head ":pserver:anonymous:@cvs.savannah.gnu.org:/sources/global", using: :cvs
 
   bottle do
     sha256 catalina:    "748524c4b316196e41e0f54df683117c61f7dfdbab1c3e641c36ae4eed7f1013"
@@ -12,20 +15,14 @@ class Global < Formula
     sha256 high_sierra: "ba9cdd8c988ca4aff95538b8d30cb9f97c99dd6f5e91e296db121c8b53459cf0"
   end
 
-  head do
-    url ":pserver:anonymous:@cvs.savannah.gnu.org:/sources/global", using: :cvs
-
-    depends_on "autoconf" => :build
-    depends_on "automake" => :build
-    depends_on "bison" => :build
-    depends_on "flex" => :build
-    ## gperf is provided by OSX Command Line Tools.
-    depends_on "libtool" => :build
-  end
-
+  depends_on "autoconf" => :build
+  depends_on "automake" => :build
   depends_on "ctags"
+  depends_on "libtool"
   depends_on "python@3.8"
 
+  uses_from_macos "bison" => :build
+  uses_from_macos "flex" => :build
   uses_from_macos "ncurses"
 
   on_linux do
@@ -39,8 +36,17 @@ class Global < Formula
     sha256 "98c8aa5a9f778fcd1026a17361ddaf7330d1b7c62ae97c3bb0ae73e0b9b6b0fe"
   end
 
+  patch do
+    # Fixes: configure: error: POSIX.1-2008 realpath(3) is required.
+    url "http://cvs.savannah.gnu.org/viewvc/global/global/configure.ac?r1=1.204&r2=1.205&view=patch"
+    sha256 "9eb2255ac32081c0fafd14ba281174e1eb415a479433396cb1b4dad8f427ca31"
+  end
+
   def install
-    system "sh", "reconf.sh" if build.head?
+    rewrite_shebang detected_python_shebang, "plugin-factory/pygments_parser.py"
+    rewrite_shebang detected_python_shebang, "plugin-factory/pygments_parser.py.in"
+
+    system "sh", "reconf.sh"
 
     xy = Language::Python.major_minor_version "python3"
     ENV.prepend_create_path "PYTHONPATH", libexec/"lib/python#{xy}/site-packages"
