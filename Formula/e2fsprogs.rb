@@ -37,16 +37,10 @@ class E2fsprogs < Formula
     # Enforce MKDIR_P to work around a configure bug
     # see https://github.com/Homebrew/homebrew-core/pull/35339
     # and https://sourceforge.net/p/e2fsprogs/discussion/7053/thread/edec6de279/
-    args = [
-      "--prefix=#{prefix}",
-      "--disable-e2initrd-helper",
-      "MKDIR_P=mkdir -p",
-    ]
-    on_linux do
-      args << "--enable-elf-shlibs"
-    end
-    system "./configure", *args
-
+    system "./configure", "--prefix=#{prefix}",
+                          "--disable-e2initrd-helper",
+                          "MKDIR_P=mkdir -p",
+                          "--enable-elf-shlibs"
     system "make"
     system "make", "install"
     system "make", "install-libs"
