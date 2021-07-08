@@ -47,7 +47,14 @@ class Ppsspp < Formula
       system "make"
       prefix.install "PPSSPPSDL.app"
       bin.write_exec_script "#{prefix}/PPSSPPSDL.app/Contents/MacOS/PPSSPPSDL"
-      mv "#{bin}/PPSSPPSDL", "#{bin}/ppsspp"
+      on_macos do
+        prefix.install "PPSSPPSDL.app"
+        bin.write_exec_script "#{prefix}/PPSSPPSDL.app/Contents/MacOS/PPSSPPSDL"
+        mv "#{bin}/PPSSPPSDL", "#{bin}/ppsspp"
+      end
+      on_linux do
+        bin.install "PPSSPPSDL" => "ppsspp"
+      end
     end
   end
 end
