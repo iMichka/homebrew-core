@@ -6,6 +6,7 @@ env:
   GH_REPO: ${{ github.repository }}
   GH_NO_UPDATE_NOTIFIER: 1
   GH_PROMPT_DISABLED: 1
+  SCRIPTS_PATH: .github/workflows/scripts
 
 concurrency:
   group: "triage-${{ github.event.number }}"
@@ -227,3 +228,26 @@ jobs:
 
             - label: pip-audit
               pr_body_content: Created by `brew-pip-audit`
+
+      - name: Get list of autobump formulae
+        id: autobump
+        run: echo "autobump_list=$(xargs < "$GITHUB_WORKSPACE"/.github/autobump.txt)" >> "$GITHUB_OUTPUT"
+
+      - name: Prevent manual autobump
+        #if: >
+        #  github.actor != 'BrewTestBot' &&
+        #  contains(github.event.pull_request.labels.*.name, 'brew bump-formula-pr')
+        uses: actions/github-script@v7
+        env:
+          AUTOBUMPED_FORMULAE: ${{steps.autobump.outputs.autobump_list}}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const path = require('path')
+            const script = require(path.resolve(`${process.env.SCRIPTS_PATH}/check-autobump.js`))
+
+            try {
+              await script({github, context, core}, `${process.env.AUTOBUMPED_FORMULAE}`)
+            } catch (error) {
+              console.error(error);
+            }
