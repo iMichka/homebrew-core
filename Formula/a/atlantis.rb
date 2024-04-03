@@ -4,6 +4,7 @@ class Atlantis < Formula
   url "https://github.com/runatlantis/atlantis/archive/refs/tags/v0.27.2.tar.gz"
   sha256 "e44a53d4fa43cdaa88a2e7734da2854a97b1b555a425ab26ac5787ef9f3d3076"
   license "Apache-2.0"
+  revision 1
   head "https://github.com/runatlantis/atlantis.git", branch: "main"
 
   livecheck do
@@ -22,10 +23,24 @@ class Atlantis < Formula
   end
 
   depends_on "go" => :build
-  depends_on "terraform"
+  
+  resource "terraform" do
+    # https://www.hashicorp.com/blog/hashicorp-adopts-business-source-license
+    # Do not update terraform, it switched to the BUSL license
+    # Waiting for https://github.com/runatlantis/atlantis/issues/3741
+    url "https://github.com/hashicorp/terraform/archive/refs/tags/v1.5.7.tar.gz"
+    sha256 "6742fc87cba5e064455393cda12f0e0241c85a7cb2a3558d13289380bb5f26f5"
+  end
 
   def install
-    system "go", "build", *std_go_args(ldflags: "-s -w")
+    resource("terraform").stage do |r|
+      system "go", "build", *std_go_args(ldflags: "-s -w", output: libexec/"bin/terraform")
+    end
+
+    system "go", "build", *std_go_args(ldflags: "-s -w", output: libexec/"bin/atlantis")
+
+    env = { PATH: libexec/"bin" }
+    (bin/"atlantis").write_env_script libexec/"bin/atlantis", env
   end
 
   test do
